@@ -1,0 +1,14 @@
+FROM ubuntu:22.04
+
+ENV TF_VERSION 1.3.9
+
+# Install terraform binary
+RUN apt update && apt install -y wget unzip && \
+	echo "Downloading https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_${ARCH}.zip" && \
+	wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_$(dpkg --print-architecture).zip && \
+	unzip terraform_${TF_VERSION}_linux_$(dpkg --print-architecture).zip && \
+	mv terraform /usr/local/bin && \
+	terraform --version && \
+	apt clean && apt autoclean
+
+CMD ["/bin/bash", "-c", "/bin/bash"]
